@@ -71,8 +71,8 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 			return true
 		})
 	}
-	fmt.Fprintln(os.Stderr, buf.String())
 	buf.WriteString(reset)
+	fmt.Fprintln(os.Stderr, buf.String())
 	return nil
 }
 
