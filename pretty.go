@@ -20,7 +20,7 @@ const (
 	colorInfo    = "\033[96m" // LightCyan
 	colorSource  = "\033[32m" // Green
 	colorMessage = "\033[97m" // White
-	colorAttrs   = "\033[34m" // Blue
+	colorAttrs   = "\033[94m" // Blue
 )
 
 type PrettyHandler struct {
