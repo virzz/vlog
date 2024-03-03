@@ -64,6 +64,7 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	}
 	buf.WriteString(colorMessage)
 	buf.WriteString(r.Message)
+	buf.WriteString(" ")
 	if r.NumAttrs() > 0 {
 		buf.WriteString(colorAttrs)
 		r.Attrs(func(a slog.Attr) bool {
