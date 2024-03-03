@@ -6,13 +6,7 @@ import (
 	"os"
 )
 
-var (
-	Log *slog.Logger
-)
-
-func init() {
-	Log = slog.New(NewPrettyHandler(nil))
-}
+var Log = slog.New(NewPrettyHandler(nil))
 
 func G() *slog.Logger { return Log }
 
