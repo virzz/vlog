@@ -14,13 +14,14 @@ const (
 	timeFormat   = "[15:04:05.000] "
 	reset        = "\033[0m"
 	colorTime    = "\033[90m" // LightGray
+	colorSource  = "\033[32m" // Green
+	colorMessage = "\033[97m" // White
+	colorAttrs   = "\033[94m" // Blue
 	colorError   = "\033[91m" // LightRed
 	colorWarn    = "\033[93m" // LightYellow
 	colorDebug   = "\033[95m" // LightMagenta
 	colorInfo    = "\033[96m" // LightCyan
-	colorSource  = "\033[32m" // Green
-	colorMessage = "\033[97m" // White
-	colorAttrs   = "\033[94m" // Blue
+
 )
 
 type PrettyHandler struct {
@@ -56,10 +57,9 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	}
 	buf.WriteString(r.Level.String())
 	buf.WriteString(" ")
-	if r.Level == slog.LevelDebug || r.Level == slog.LevelError {
+	if r.Level == slog.LevelDebug {
 		buf.WriteString(colorSource)
-		fs := runtime.CallersFrames([]uintptr{r.PC})
-		f, _ := fs.Next()
+		f, _ := runtime.CallersFrames([]uintptr{r.PC}).Next()
 		buf.WriteString(fmt.Sprintf("[ %s:%d ] ", f.File, f.Line))
 	}
 	buf.WriteString(colorMessage)
@@ -67,7 +67,7 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	if r.NumAttrs() > 0 {
 		buf.WriteString(colorAttrs)
 		r.Attrs(func(a slog.Attr) bool {
-			buf.WriteString(fmt.Sprintf(" %s = %v", a.Key, a.Value))
+			buf.WriteString(a.String())
 			return true
 		})
 	}
