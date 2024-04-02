@@ -56,7 +56,7 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 		buf.WriteString(colorError)
 	}
 	buf.WriteString(r.Level.String())
-	buf.WriteString(" ")
+	buf.WriteByte(' ')
 	if r.Level == slog.LevelDebug {
 		buf.WriteString(colorSource)
 		f, _ := runtime.CallersFrames([]uintptr{r.PC}).Next()
@@ -64,11 +64,12 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	}
 	buf.WriteString(colorMessage)
 	buf.WriteString(r.Message)
-	buf.WriteString(" ")
+	buf.WriteByte(' ')
 	if r.NumAttrs() > 0 {
 		buf.WriteString(colorAttrs)
 		r.Attrs(func(a slog.Attr) bool {
 			buf.WriteString(a.String())
+			buf.WriteByte(' ')
 			return true
 		})
 	}
