@@ -54,14 +54,15 @@ func New(filename string, ws ...io.Writer) error {
 	return nil
 }
 
-func NewV2(ws ...io.Writer) {
+func NewV2(ws []io.Writer, opts *slog.HandlerOptions) {
 	if ws == nil {
 		panic("io.Writer is nil")
 	}
+	if opts == nil {
+		opts = &slog.HandlerOptions{Level: slog.LevelDebug, AddSource: true}
+	}
 	Log = slog.New(NewMultiHandler(
 		NewPrettyHandler(nil),
-		slog.NewJSONHandler(
-			io.MultiWriter(ws...),
-			&slog.HandlerOptions{Level: slog.LevelDebug, AddSource: true}),
+		slog.NewJSONHandler(io.MultiWriter(ws...), opts),
 	))
 }
