@@ -80,12 +80,12 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 
 func NewPrettyHandler(opts *slog.HandlerOptions) *PrettyHandler {
 	if opts == nil {
-		opts = &slog.HandlerOptions{}
+		opts = &slog.HandlerOptions{Level: slog.LevelInfo, AddSource: false}
 	}
 	b := &bytes.Buffer{}
 	return &PrettyHandler{
 		b: b,
 		m: &sync.Mutex{},
-		h: slog.NewTextHandler(b, &slog.HandlerOptions{Level: slog.LevelDebug}),
+		h: slog.NewTextHandler(b, opts),
 	}
 }
