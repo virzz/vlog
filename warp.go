@@ -16,8 +16,9 @@ func log(level slog.Level, msg string, args ...any) {
 	var pcs [1]uintptr
 	runtime.Callers(3, pcs[:]) // skip [Callers, log]
 	r := slog.NewRecord(time.Now(), level, msg, pcs[0])
-	attrs := make([]slog.Attr, 0, len(args))
-	for i := 0; i < len(args); i += 2 {
+	l := len(args) / 2 * 2
+	attrs := make([]slog.Attr, 0, l)
+	for i := 0; i < l; i += 2 {
 		attrs = append(attrs, slog.String(fmt.Sprint(args[i]), fmt.Sprint(args[i+1])))
 	}
 	r.AddAttrs(attrs...)
