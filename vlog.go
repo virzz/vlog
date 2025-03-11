@@ -30,6 +30,7 @@ func BufferedWriteSyncer(filename string, maxSize, maxBackups, maxAge int) *zapc
 	}
 	return bws
 }
+
 func Sync() {
 	if bws != nil {
 		bws.Sync()
